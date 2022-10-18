@@ -4,6 +4,22 @@ $conn = new MySQLi('localhost', 'gestor', '', 'tesistas_db');
 
 $action = $_GET['action'] ?? '';
 
+echo siempreMostrar();
+function siempreMostrar(){
+    $query = "SELECT * FROM usuarios";
+        $res = mysqli_query($conn, $query);
+        //Convertir la respuesta en un JSON
+        $json = array();
+        while($row = mysqli_fetch_array($res)){
+            $json[] = array(
+                'id' => ['id'];
+                'nombre' => $row['nombre'];
+                'apellido_p' => $row['apellido_p'];
+                'apellido_m' => $row['apellido_m'];
+                'telefono' => $row['telefono'];
+            );
+}
+
 switch($action){
     case 'save':
             //lo use para llamar una funcion de prueba //echo holamundo();
@@ -24,11 +40,35 @@ switch($action){
             echo update($nombre, $apellido_p, $apellido_m, $telefono, $id, $conn);
             
         break;
-        case 'delete':
+
+    case 'delete':
             $id  = $_GET['id'];
             echo borrar($id, $conn);
             
             break;
+
+    case 'get_user_info':
+
+            break;
+    case 'get_all_users_info':
+        $query = "SELECT * FROM usuarios";
+        $res = mysqli_query($conn, $query);
+        //Convertir la respuesta en un JSON
+        $json = array();
+        while($row = mysqli_fetch_array($res)){
+            $json[] = array(
+                'id' => ['id'];
+                'nombre' => $row['nombre'];
+                'apellido_p' => $row['apellido_p'];
+                'apellido_m' => $row['apellido_m'];
+                'telefono' => $row['telefono'];
+            );
+        }
+        $jsonString = json_encode($json);
+        echo $jsonString;
+
+
+     break;
     default:
         echo 'Servicio incorrecto';
     break;
